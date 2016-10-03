@@ -4,6 +4,9 @@ var rHour = 190;
 var rMin = 150;
 var rSec = 120;
 var numbMargin= 10;
+var isVisible=0;
+
+var describeArc, setOrbits, interval;
 
 
 var polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
@@ -15,10 +18,8 @@ var polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
     };
   };
 
-(function(){
-    var writeNumbers;
-    
-    writeNumbers =  function(){
+function writeNumbers(){
+
       var hourNumbers= $('#hourNumbers');
       var minNumbers= $('#minNumbers');
       var svgNS = "http://www.w3.org/2000/svg";
@@ -44,13 +45,9 @@ var polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
          newText.appendChild(textNode);
          minNumbers.append(newText);
       }
-    };
+};
 
-    writeNumbers();
-}).call(this);
-
-(function() {
-  var describeArc, setOrbits;
+ 
 
   describeArc = function(x, y, radius, startAngle, endAngle) {
     var arcSweep, end, start;
@@ -60,7 +57,8 @@ var polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
     return ['M', start.x, start.y, 'A', radius, radius, 0, arcSweep, 0, end.x, end.y].join(' ');
   };
 
-  setOrbits = function() {
+function runArcs(){
+  setOrbits = function(){
     var dot, hour, hourArc, minArc, minute, now, pos;
     now = new Date();
     hour = now.getHours();
@@ -87,11 +85,35 @@ var polarToCartesian = function(centerX, centerY, radius, angleInDegrees) {
     dot.attr("cx", pos.x);
     dot.attr("cy", pos.y);
   };
+  interval = setInterval(function(){return setOrbits();}, 1000);
+};
+  
+ 
 
  
-  setOrbits();
 
-  setInterval(function() {
-    return setOrbits();
-  }, 100);
-}).call(this);
+function showClock(){
+  if(!isVisible){
+    $("#onOff").animate({
+      left: "+=350",
+      value: "Esconder Relógio"
+    }, "slow", "linear", function(){
+      writeNumbers();
+      runArcs();
+      $("#svgCanvas").fadeIn("slow");
+      $("#onOff").html('Esconder Relógio');
+      isVisible=1;
+    });
+    
+  }
+  else{
+    $("#onOff").animate({
+      left: "-=350"
+    }, "slow", "linear", function(){
+      $("#svgCanvas").fadeOut("slow");
+      $("#onOff").html('Mostrar Relógio');
+      isVisible=0;
+      clearInterval(interval);
+    });
+  }
+};

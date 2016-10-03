@@ -1,5 +1,18 @@
+body{
+  background: url(../img/tribg.svg) no-repeat center center;
+  background-size: cover;
+}
+h1{
+  font-family: Segoe UI,Helvetica,Arial;
+  font-weight: 500;
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-color: #9933ff;
+}
+
 #svgCanvas{
-  margin-left: 10%
+  margin-left: 10%;
+  display: none;
 }
 svg {
   position: absolute;
@@ -37,4 +50,44 @@ svg {
   font-family: Segoe UI,Helvetica,Arial;
   font-weight: 200;
   fill: black;
+}
+
+button{
+    position: absolute;
+    top: 40%;
+    left: 40%;
+    /*transform: translate(-50%, -50%);*/
+    border-radius: 2rem;
+    padding: 1rem;
+    font-size: 1.5rem;
+    font-weight: 400;
+    border: 1px solid  #9933ff;
+    color:  white;
+    background-color: #9933ff;
+    transition: all 0.3s ease-in-out;
+}
+
+button::after: {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-radius: 5px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  /*transition: opacity 0.3s ease-in-out;*/
+}
+button:hover {
+  transform: scale(1.1);
+  /*transition: transform 0.2s ease-in-out;*/
+}
+
+button:hover::after {
+  opacity: 1;
+}
+
+button:active{
+  color: #9933ff;
+  background-color:  white;
 }
